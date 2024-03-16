@@ -36,7 +36,7 @@ import { IHeadings } from "../../shared";
     },
     h6: {
       nodes: document.querySelectorAll("h6"),
-      color: "bg-indigo-600",
+      color: "bg-yellow-600",
     },
   };
 
