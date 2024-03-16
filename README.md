@@ -24,4 +24,4 @@ Experience the difference Highlight Headings can make in your browsing journey. 
 
 [Download for Chrome](https://chromewebstore.google.com/detail/ogjomkppgbidflclhocfmkpofjhgpfai).
 
-[Download for Firefox](https://addons.mozilla.org/ru/firefox/extensions/)
+[Download for Firefox](https://addons.mozilla.org/ru/firefox/addon/highlight-heading/)
