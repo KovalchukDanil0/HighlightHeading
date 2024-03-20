@@ -1,3 +1,5 @@
+import Browser from "webextension-polyfill";
+
 export interface ISubHeadings {
   nodes: NodeListOf<HTMLHeadingElement>;
   color: string;
@@ -11,4 +13,9 @@ export interface IHeadings {
   h4: ISubHeadings;
   h5: ISubHeadings;
   h6: ISubHeadings;
+}
+
+export function SetBadge() {
+  Browser.action.setBadgeText({ text: "ACT" });
+  Browser.action.setBadgeBackgroundColor({ color: "#2ED825" });
 }

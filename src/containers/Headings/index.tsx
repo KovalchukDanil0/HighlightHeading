@@ -9,13 +9,27 @@ type Props = {
   headings: IHeadings;
 };
 
+const headingAnimation = "gelatine";
+const yOffset = -100;
+
 function ClickHeading(headingsArray: ISubHeadings) {
-  headingsArray.index++;
   if (headingsArray.index >= headingsArray.nodes.length) {
+    headingsArray.nodes[0].classList.remove(headingAnimation);
     headingsArray.index = 0;
   }
 
-  headingsArray.nodes[headingsArray.index].scrollIntoView();
+  const element = headingsArray.nodes[headingsArray.index];
+  const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+  window.scrollTo({ top: y, behavior: "smooth" });
+
+  if (headingsArray.index !== 0) {
+    headingsArray.nodes[headingsArray.index - 1].classList.remove(
+      headingAnimation,
+    );
+  }
+  element.classList.add(headingAnimation);
+
+  headingsArray.index++;
 }
 
 export default function Headings(props: Readonly<Props>): React.JSX.Element {
@@ -30,6 +44,7 @@ export default function Headings(props: Readonly<Props>): React.JSX.Element {
               key={idx}
               className="highlight-headings-headings-container"
               style={{
+                opacity: nodes.nodes.length > 0 ? "100%" : "50%",
                 backgroundColor: nodes.color,
               }}
             >

@@ -2,6 +2,7 @@ import { Spinner, Toast } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiCheck, HiX } from "react-icons/hi";
 import Browser, { Tabs } from "webextension-polyfill";
+import { SetBadge } from "../../shared";
 import "./Popup.css";
 
 let isActive: boolean;
@@ -24,8 +25,7 @@ function activateHeadings() {
   }, 2000);
 
   if (isActive) {
-    Browser.action.setBadgeText({ text: "ACT" });
-    Browser.action.setBadgeBackgroundColor({ color: "#2ED825" });
+    SetBadge();
     name += "active";
   } else {
     Browser.action.setBadgeText({ text: "" });
