@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Highlight Heading",
+  "name": "Highlight Headings",
   "action": {
     "default_popup": "popup.html"
   },
@@ -13,10 +13,12 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["contentScript.bundle.js"]
+      "js": ["contentScript.bundle.js"],
+      "run_at": "document_end"
     }
   ],
-  "permissions": ["storage"],
+  "host_permissions": ["<all_urls>"],
+  "permissions": ["storage", "tabs"],
   "browser_specific_settings": {
     "gecko": {
       "id": "HighlightHeadings@gomofob.com",

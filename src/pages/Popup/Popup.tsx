@@ -1,10 +1,13 @@
 import { Spinner, Toast } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { HiCheck, HiX } from "react-icons/hi";
-import Browser from "webextension-polyfill";
+import Browser, { Tabs } from "webextension-polyfill";
 import "./Popup.css";
 
-let isActive: boolean | null = null;
+let isActive: boolean;
+let tabs: Tabs.Tab[];
+
+// TODO: fix badge is not displaying when chrome reopened
 
 function activateHeadings() {
   isActive = !isActive;
@@ -12,13 +15,20 @@ function activateHeadings() {
 
   Browser.storage.local.set({ isActive });
 
+  tabs.forEach((tab) => {
+    Browser.tabs.sendMessage(tab.id!, { context: "addRemovePopup" });
+  });
+
   setTimeout(() => {
     window.close();
   }, 2000);
 
   if (isActive) {
+    Browser.action.setBadgeText({ text: "ACT" });
+    Browser.action.setBadgeBackgroundColor({ color: "#2ED825" });
     name += "active";
   } else {
+    Browser.action.setBadgeText({ text: "" });
     name += "deactivated";
   }
 
@@ -36,6 +46,8 @@ export default function Popup(): React.JSX.Element {
     const data: Record<string, any> =
       await Browser.storage.local.get("isActive");
     isActive = data.isActive;
+
+    tabs = await Browser.tabs.query({ currentWindow: true });
 
     setIsLoaded(true);
   }

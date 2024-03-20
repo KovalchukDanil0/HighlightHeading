@@ -1,6 +1,7 @@
 export interface ISubHeadings {
   nodes: NodeListOf<HTMLHeadingElement>;
   color: string;
+  index: number;
 }
 
 export interface IHeadings {

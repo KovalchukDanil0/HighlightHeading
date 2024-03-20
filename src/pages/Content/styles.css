@@ -1,0 +1,35 @@
+.highlight-headings-body h1 {
+    outline: 3px !important;
+    outline-color: var(--color-h1) !important;
+    outline-style: solid !important;
+}
+
+.highlight-headings-body h2 {
+    outline: 3px !important;
+    outline-color: var(--color-h2) !important;
+    outline-style: solid !important;
+}
+
+.highlight-headings-body h3 {
+    outline: 3px !important;
+    outline-color: var(--color-h3) !important;
+    outline-style: solid !important;
+}
+
+.highlight-headings-body h4 {
+    outline: 3px !important;
+    outline-color: var(--color-h4) !important;
+    outline-style: solid !important;
+}
+
+.highlight-headings-body h5 {
+    outline: 3px !important;
+    outline-color: var(--color-h5) !important;
+    outline-style: solid !important;
+}
+
+.highlight-headings-body h6 {
+    outline: 3px !important;
+    outline-color: var(--color-h6) !important;
+    outline-style: solid !important;
+}

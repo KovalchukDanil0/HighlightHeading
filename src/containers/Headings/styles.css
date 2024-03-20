@@ -1,0 +1,39 @@
+.highlight-headings-headings-popup {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9999;
+    margin-left: 1.25rem;
+    margin-top: 1.25rem;
+    height: fit-content;
+    width: 14rem;
+    cursor: grab;
+    flex: 1 1 0%;
+    flex-direction: column;
+}
+
+.highlight-headings-headings-container {
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    display: flex;
+}
+
+.highlight-headings-headings-container>p {
+    font-weight: bold;
+    font-family: serif;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: black;
+}
+
+.highlight-headings-headings-container>button {
+    font-weight: bold;
+    display: inline-block;
+    font-family: serif;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: black;
+}
