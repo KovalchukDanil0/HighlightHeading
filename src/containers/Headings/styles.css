@@ -1,17 +1,16 @@
 .highlight-headings-headings-popup {
     position: fixed;
     bottom: 0;
-    left: 0;
     right: 0;
-    top: 0;
+    top: 25px;
+    left: 25px;
     z-index: 9999;
-    margin-left: 1.25rem;
-    margin-top: 1.25rem;
-    height: fit-content;
     width: 14rem;
     cursor: grab;
     flex: 1 1 0%;
     flex-direction: column;
+    user-select: none;
+    height: fit-content;
 }
 
 .highlight-headings-headings-container {
@@ -19,6 +18,7 @@
     text-align: center;
     align-items: center;
     display: flex;
+    height: 60px;
 }
 
 .highlight-headings-headings-container>p {
@@ -27,6 +27,7 @@
     font-size: 1.5rem;
     line-height: 2rem;
     color: black;
+    margin: 0;
 }
 
 .highlight-headings-headings-container>button {
@@ -36,12 +37,6 @@
     font-size: 1.5rem;
     line-height: 2rem;
     color: black;
-}
-
-.gelatine {
-    animation-name: gelatine;
-    animation-duration: 0.5s;
-    animation-delay: 500ms;
 }
 
 @keyframes gelatine {
@@ -62,4 +57,28 @@
     75% {
         transform: scale(0.95, 1.05);
     }
+}
+
+.highlight-headings-gelatine {
+    animation-name: gelatine;
+    animation-duration: 0.5s;
+    animation-delay: 500ms;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+        display: none;
+    }
+}
+
+.highlight-headings-fade-out {
+    animation-name: fadeOut;
+    animation-duration: 0.5s;
+    animation-delay: 500ms;
+    animation-fill-mode: forwards;
 }
