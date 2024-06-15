@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import Browser from "webextension-polyfill";
 import Headings from "../../containers/Headings";
 import { IHeadings } from "../../shared";
-import "./styles.css";
+import "./index.css";
 
 const rootId = "highlight-headings-root";
 
@@ -18,6 +18,7 @@ const headings: IHeadings = {
     color: "rgb(37, 99, 235)",
     index: 0,
   },
+
   h3: {
     nodes: document.querySelectorAll("h3"),
     color: "rgb(250, 204, 21)",

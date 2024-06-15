@@ -1,18 +1,19 @@
-const webpack = require("webpack"),
-  path = require("path"),
-  fileSystem = require("fs-extra"),
-  env = require("./utils/env"),
-  CopyWebpackPlugin = require("copy-webpack-plugin"),
-  HtmlWebpackPlugin = require("html-webpack-plugin"),
-  TerserPlugin = require("terser-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
-const ReactRefreshTypeScript = require("react-refresh-typescript");
-const pkg = require("./package.json");
+import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import CopyWebpackPlugin from "copy-webpack-plugin";
+import fileSystem from "fs-extra";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import path from "path";
+import ReactRefreshTypeScript from "react-refresh-typescript";
+import TerserPlugin from "terser-webpack-plugin";
+import { Configuration, EnvironmentPlugin, ProgressPlugin } from "webpack";
+import pkg from "./package.json";
+import { ConfigurationModeType } from "./src/shared";
+import env from "./utils/env";
 
 const ASSET_PATH = process.env.ASSET_PATH || "/";
 
-const alias = {};
+const alias: { secrets?: string } = {};
 
 // load the secrets
 const secretsPath = path.join(__dirname, `secrets.${env.NODE_ENV}.js`);
@@ -36,15 +37,12 @@ if (fileSystem.existsSync(secretsPath)) {
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
-const options = {
-  mode: process.env.NODE_ENV || "development",
+const config: Configuration = {
+  mode: (process.env.NODE_ENV || "development") as ConfigurationModeType,
   entry: {
     popup: path.join(__dirname, "src", "pages", "Popup", "index.tsx"),
     background: path.join(__dirname, "src", "pages", "Background", "index.ts"),
     contentScript: path.join(__dirname, "src", "pages", "Content", "index.ts"),
-  },
-  chromeExtensionBoilerplate: {
-    notHotReload: ["background", "contentScript"],
   },
   output: {
     filename: "[name].bundle.js",
@@ -56,8 +54,18 @@ const options = {
     rules: [
       {
         use: [
-          "style-loader",
-          "css-loader",
+          {
+            loader: "style-loader",
+          },
+          {
+            loader: "css-loader",
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true,
+            },
+          },
           {
             loader: "postcss-loader",
             options: {
@@ -68,7 +76,7 @@ const options = {
             },
           },
         ],
-        test: /\.css$/i,
+        test: /\.(css|scss)$/,
       },
       {
         test: new RegExp(`.(${fileExtensions.join("|")})$`),
@@ -89,7 +97,7 @@ const options = {
         exclude: /node_modules/,
         use: [
           {
-            loader: require.resolve("ts-loader"),
+            loader: "ts-loader",
             options: {
               getCustomTransformers: () => ({
                 before: [isDevelopment && ReactRefreshTypeScript()].filter(
@@ -108,11 +116,9 @@ const options = {
             loader: "source-map-loader",
           },
           {
-            loader: require.resolve("babel-loader"),
+            loader: "babel-loader",
             options: {
-              plugins: [
-                isDevelopment && require.resolve("react-refresh/babel"),
-              ].filter(Boolean),
+              plugins: [isDevelopment && "react-refresh/babel"].filter(Boolean),
             },
           },
         ],
@@ -129,9 +135,9 @@ const options = {
   plugins: [
     isDevelopment && new ReactRefreshWebpackPlugin(),
     new CleanWebpackPlugin({ verbose: false }),
-    new webpack.ProgressPlugin(),
+    new ProgressPlugin(),
     // expose and write the allowed env vars on the compiled bundle
-    new webpack.EnvironmentPlugin(["NODE_ENV"]),
+    new EnvironmentPlugin(["NODE_ENV"]),
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -186,19 +192,17 @@ const options = {
   infrastructureLogging: {
     level: "info",
   },
+  devtool: isDevelopment ? "cheap-module-source-map" : undefined,
+  optimization: !isDevelopment
+    ? {
+        minimize: true,
+        minimizer: [
+          new TerserPlugin({
+            extractComments: false,
+          }),
+        ],
+      }
+    : undefined,
 };
 
-if (env.NODE_ENV === "development") {
-  options.devtool = "cheap-module-source-map";
-} else {
-  options.optimization = {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        extractComments: false,
-      }),
-    ],
-  };
-}
-
-module.exports = options;
+export default config;

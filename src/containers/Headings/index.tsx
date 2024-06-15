@@ -3,7 +3,7 @@ import Draggable from "react-draggable";
 import { IconContext } from "react-icons";
 import { FaArrowRight } from "react-icons/fa";
 import { IHeadings, ISubHeadings } from "../../shared";
-import "./styles.css";
+import "./index.css";
 
 const headingAnimation = "highlight-headings-gelatine";
 const yOffset = -100;

@@ -19,3 +19,5 @@ export function SetBadge() {
   Browser.action.setBadgeText({ text: "ACT" });
   Browser.action.setBadgeBackgroundColor({ color: "#2ED825" });
 }
+
+export type ConfigurationModeType = "production" | "development" | "none";

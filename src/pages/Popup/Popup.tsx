@@ -1,9 +1,9 @@
-import { Spinner, Toast } from "flowbite-react";
 import React, { useEffect, useState } from "react";
+import { Loading, Toast } from "react-daisyui";
 import { HiCheck, HiX } from "react-icons/hi";
 import Browser, { Tabs } from "webextension-polyfill";
 import { SetBadge } from "../../shared";
-import "./Popup.css";
+import "./Popup.scss";
 
 let isActive: boolean;
 let tabs: Tabs.Tab[];
@@ -57,7 +57,7 @@ export default function Popup(): React.JSX.Element {
   });
 
   if (!isLoaded) {
-    return <Spinner />;
+    return <Loading />;
   }
 
   return (
