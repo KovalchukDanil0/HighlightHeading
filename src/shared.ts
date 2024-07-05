@@ -21,3 +21,5 @@ export function SetBadge() {
 }
 
 export type ConfigurationModeType = "production" | "development" | "none";
+
+export type SavedData = { isActive: boolean };

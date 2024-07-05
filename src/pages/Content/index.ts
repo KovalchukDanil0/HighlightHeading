@@ -2,8 +2,8 @@ import { ReactElement } from "react";
 import { createRoot } from "react-dom/client";
 import Browser from "webextension-polyfill";
 import Headings from "../../containers/Headings";
-import { IHeadings } from "../../shared";
-import "./index.css";
+import { IHeadings, SavedData } from "../../shared";
+import "./index.scss";
 
 const rootId = "highlight-headings-root";
 
@@ -45,7 +45,7 @@ const headingsElm: ReactElement = Headings({
   headings,
 });
 
-function InitStyle() {
+function initStyle() {
   const style = `
   :root {
     --color-h1: ${headings.h1.color};
@@ -60,9 +60,8 @@ function InitStyle() {
   document.body.appendChild(styleElm);
 }
 
-async function ShowHeadings() {
-  const isActive: Record<string, any> =
-    await Browser.storage.local.get("isActive");
+async function showHeadings() {
+  const isActive = (await Browser.storage.local.get("isActive")) as SavedData;
 
   if (!isActive.isActive) {
     return;
@@ -70,7 +69,7 @@ async function ShowHeadings() {
 
   document.body.classList.add("highlight-headings-body");
 
-  let div: HTMLElement = document.getElementById(rootId)!;
+  let div: HTMLElement | null = document.getElementById(rootId);
   if (div == null) {
     div = document.body.appendChild(document.createElement("div"));
     div.id = rootId;
@@ -85,18 +84,18 @@ Browser.runtime.onMessage.addListener(function (msg) {
     return;
   }
 
-  const popup: HTMLElement = document.getElementById(rootId)!;
+  const popup: HTMLElement | null = document.getElementById(rootId);
   if (popup != null) {
     document.body.classList.remove("highlight-headings-body");
     popup.remove();
     Browser.action.setBadgeText({ text: "" });
   } else {
-    ShowHeadings();
+    showHeadings();
   }
   document.getElementById(rootId)?.remove();
 });
 
 (function Main() {
-  InitStyle();
-  ShowHeadings();
+  initStyle();
+  showHeadings();
 })();

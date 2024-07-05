@@ -1,28 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Loading, Toast } from "react-daisyui";
+import React from "react";
+import { useAsync } from "react-async";
+import { Alert, Loading } from "react-daisyui";
 import { HiCheck, HiX } from "react-icons/hi";
 import Browser, { Tabs } from "webextension-polyfill";
-import { SetBadge } from "../../shared";
-import "./Popup.scss";
+import { SavedData, SetBadge } from "../../shared";
+
+const windowCloseTime = 2000;
 
 let isActive: boolean;
-let tabs: Tabs.Tab[];
 
-// TODO: fix badge is not displaying when chrome reopened
-
-function activateHeadings() {
+function activateHeadings(tabs: Tabs.Tab[]) {
   isActive = !isActive;
   let name = "Headings is ";
 
   Browser.storage.local.set({ isActive });
 
-  tabs.forEach((tab) => {
-    Browser.tabs.sendMessage(tab.id!, { context: "addRemovePopup" });
+  tabs?.forEach((tab) => {
+    if (tab.id != null) {
+      Browser.tabs.sendMessage(tab.id, { context: "addRemovePopup" });
+    }
   });
-
-  setTimeout(() => {
-    window.close();
-  }, 2000);
 
   if (isActive) {
     SetBadge();
@@ -32,42 +29,42 @@ function activateHeadings() {
     name += "deactivated";
   }
 
+  setTimeout(() => {
+    window.close();
+  }, windowCloseTime);
+
   return name;
 }
 
-export default function Popup(): React.JSX.Element {
-  const [isLoaded, setIsLoaded] = useState(false);
+async function initVariables(): Promise<Tabs.Tab[]> {
+  const data = (await Browser.storage.local.get("isActive")) as SavedData;
+  isActive = data.isActive;
 
-  async function getState() {
-    if (isActive != null) {
-      return;
-    }
+  return Browser.tabs.query({ currentWindow: true });
+}
 
-    const data: Record<string, any> =
-      await Browser.storage.local.get("isActive");
-    isActive = data.isActive;
+export default function Popup() {
+  const {
+    data: tabs,
+    error,
+    isPending,
+  } = useAsync({ promiseFn: initVariables });
 
-    tabs = await Browser.tabs.query({ currentWindow: true });
-
-    setIsLoaded(true);
-  }
-
-  useEffect(() => {
-    getState();
-  });
-
-  if (!isLoaded) {
+  if (isPending) {
     return <Loading />;
   }
 
+  if (error || tabs == null) {
+    return `Something went wrong: ${error?.message ?? "tabs is undefined"}`;
+  }
+
   return (
-    <Toast className="rounded-none">
-      <div
-        className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${isActive ? "bg-red-800 text-red-200" : "bg-green-800 text-green-200"}`}
-      >
-        {isActive ? <HiX /> : <HiCheck />}
-      </div>
-      <div className="ml-3 text-sm font-normal">{activateHeadings()}</div>
-    </Toast>
+    <Alert
+      className="block rounded-none"
+      status={isActive ? "error" : "success"}
+      icon={isActive ? <HiX /> : <HiCheck />}
+    >
+      {activateHeadings(tabs)}
+    </Alert>
   );
 }

@@ -1,7 +1,7 @@
 import Browser from "webextension-polyfill";
 import { SetBadge } from "../../shared";
 
-async function Main() {
+async function onStartup() {
   const data: Record<string, any> = await Browser.storage.local.get("isActive");
   const isActive = data.isActive;
 
@@ -10,4 +10,4 @@ async function Main() {
   }
 }
 
-Browser.runtime.onStartup.addListener(Main);
+Browser.runtime.onStartup.addListener(onStartup);

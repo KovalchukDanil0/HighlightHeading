@@ -1,10 +1,14 @@
 import React from "react";
-import { createRoot } from "react-dom/client";
+import { Root, createRoot } from "react-dom/client";
 import Popup from "./Popup";
 
 import "../../assets/css/tailwind.scss";
 import "./index.scss";
 
-const container = document.getElementById("app-container");
-const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+const container: HTMLElement | null = document.getElementById("app-container");
+if (container == null) {
+  throw new Error("Critical Error - root element is null");
+}
+
+const root: Root = createRoot(container);
 root.render(<Popup />);
