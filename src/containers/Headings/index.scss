@@ -1,84 +1,83 @@
-.highlight-headings-headings-popup {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    top: 25px;
-    left: 25px;
-    z-index: 9999;
-    width: 14rem;
-    cursor: grab;
-    flex: 1 1 0%;
-    flex-direction: column;
-    user-select: none;
-    height: fit-content;
-}
+div.highlight-headings-popup {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  top: 25px;
+  left: 25px;
+  z-index: 9999;
+  width: 14rem;
+  cursor: grab;
+  flex: 1 1 0%;
+  flex-direction: column;
+  user-select: none;
+  height: fit-content;
 
-.highlight-headings-headings-container {
+  &-container {
     justify-content: center;
     text-align: center;
     align-items: center;
     display: flex;
     height: 60px;
-}
 
-.highlight-headings-headings-container>p {
-    font-weight: bold;
-    font-family: serif;
-    font-size: 1.5rem;
-    line-height: 2rem;
-    color: black;
-    margin: 0;
-}
+    p {
+      font-weight: bold;
+      font-family: serif;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      color: black;
+      margin: 0;
+    }
 
-.highlight-headings-headings-container>button {
-    font-weight: bold;
-    display: inline-block;
-    font-family: serif;
-    font-size: 1.5rem;
-    line-height: 2rem;
-    color: black;
+    button {
+      font-weight: bold;
+      display: inline-block;
+      font-family: serif;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      color: black;
+    }
+  }
 }
 
 @keyframes gelatine {
+  from,
+  to {
+    transform: scale(1, 1);
+  }
 
-    from,
-    to {
-        transform: scale(1, 1);
-    }
+  25% {
+    transform: scale(0.9, 1.1);
+  }
 
-    25% {
-        transform: scale(0.9, 1.1);
-    }
+  50% {
+    transform: scale(1.1, 0.9);
+  }
 
-    50% {
-        transform: scale(1.1, 0.9);
-    }
-
-    75% {
-        transform: scale(0.95, 1.05);
-    }
+  75% {
+    transform: scale(0.95, 1.05);
+  }
 }
 
 .highlight-headings-gelatine {
-    animation-name: gelatine;
-    animation-duration: 0.5s;
-    animation-delay: 500ms;
+  animation-name: gelatine;
+  animation-duration: 0.5s;
+  animation-delay: 500ms;
 }
 
 @keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
+  from {
+    opacity: 1;
+  }
 
-    to {
-        opacity: 0;
-        display: none;
-    }
+  to {
+    opacity: 0;
+    display: none;
+  }
 }
 
-.highlight-headings-fade-out {
-    animation-name: fadeOut;
-    animation-duration: 0.5s;
-    animation-delay: 500ms;
-    animation-fill-mode: forwards;
+div.highlight-headings-fade-out {
+  animation-name: fadeOut;
+  animation-duration: 0.5s;
+  animation-delay: 500ms;
+  animation-fill-mode: forwards;
 }

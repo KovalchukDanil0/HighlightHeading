@@ -1,35 +1,31 @@
-.highlight-headings-body h1 {
-    outline: 3px !important;
-    outline-color: var(--color-h1) !important;
-    outline-style: solid !important;
+@mixin heading($colorName) {
+  outline: 3px !important;
+  outline-color: var($colorName) !important;
+  outline-style: solid !important;
 }
 
-.highlight-headings-body h2 {
-    outline: 3px !important;
-    outline-color: var(--color-h2) !important;
-    outline-style: solid !important;
-}
+body.highlight-headings-body {
+  h1 {
+    @include heading(--color-h1);
+  }
 
-.highlight-headings-body h3 {
-    outline: 3px !important;
-    outline-color: var(--color-h3) !important;
-    outline-style: solid !important;
-}
+  h2 {
+    @include heading(--color-h2);
+  }
 
-.highlight-headings-body h4 {
-    outline: 3px !important;
-    outline-color: var(--color-h4) !important;
-    outline-style: solid !important;
-}
+  h3 {
+    @include heading(--color-h3);
+  }
 
-.highlight-headings-body h5 {
-    outline: 3px !important;
-    outline-color: var(--color-h5) !important;
-    outline-style: solid !important;
-}
+  h4 {
+    @include heading(--color-h4);
+  }
 
-.highlight-headings-body h6 {
-    outline: 3px !important;
-    outline-color: var(--color-h6) !important;
-    outline-style: solid !important;
+  h5 {
+    @include heading(--color-h5);
+  }
+
+  h6 {
+    @include heading(--color-h6);
+  }
 }

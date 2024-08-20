@@ -1,12 +1,13 @@
 import Browser from "webextension-polyfill";
-import { SetBadge } from "../../shared";
+import { SavedData, setBadge } from "../../shared";
 
 async function onStartup() {
-  const data: Record<string, any> = await Browser.storage.local.get("isActive");
-  const isActive = data.isActive;
+  const data: SavedData = (await Browser.storage.local.get(
+    "isActive",
+  )) as SavedData;
 
-  if (isActive) {
-    SetBadge();
+  if (data.isActive) {
+    setBadge();
   }
 }
 

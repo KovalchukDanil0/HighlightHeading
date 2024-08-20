@@ -6,7 +6,7 @@ import "../../assets/css/tailwind.scss";
 import "./index.scss";
 
 const container: HTMLElement | null = document.getElementById("app-container");
-if (container == null) {
+if (!container) {
   throw new Error("Critical Error - root element is null");
 }
 

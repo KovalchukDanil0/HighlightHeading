@@ -70,7 +70,7 @@ async function showHeadings() {
   document.body.classList.add("highlight-headings-body");
 
   let div: HTMLElement | null = document.getElementById(rootId);
-  if (div == null) {
+  if (!div) {
     div = document.body.appendChild(document.createElement("div"));
     div.id = rootId;
   }
@@ -85,7 +85,7 @@ Browser.runtime.onMessage.addListener(function (msg) {
   }
 
   const popup: HTMLElement | null = document.getElementById(rootId);
-  if (popup != null) {
+  if (popup) {
     document.body.classList.remove("highlight-headings-body");
     popup.remove();
     Browser.action.setBadgeText({ text: "" });
@@ -95,7 +95,7 @@ Browser.runtime.onMessage.addListener(function (msg) {
   document.getElementById(rootId)?.remove();
 });
 
-(function Main() {
+(function () {
   initStyle();
   showHeadings();
 })();

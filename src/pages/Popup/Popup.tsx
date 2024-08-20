@@ -3,7 +3,7 @@ import { useAsync } from "react-async";
 import { Alert, Loading } from "react-daisyui";
 import { HiCheck, HiX } from "react-icons/hi";
 import Browser, { Tabs } from "webextension-polyfill";
-import { SavedData, SetBadge } from "../../shared";
+import { SavedData, setBadge } from "../../shared";
 
 const windowCloseTime = 2000;
 
@@ -15,14 +15,14 @@ function activateHeadings(tabs: Tabs.Tab[]) {
 
   Browser.storage.local.set({ isActive });
 
-  tabs?.forEach((tab) => {
-    if (tab.id != null) {
+  tabs.forEach((tab) => {
+    if (tab.id) {
       Browser.tabs.sendMessage(tab.id, { context: "addRemovePopup" });
     }
   });
 
   if (isActive) {
-    SetBadge();
+    setBadge();
     name += "active";
   } else {
     Browser.action.setBadgeText({ text: "" });
@@ -54,7 +54,7 @@ export default function Popup() {
     return <Loading />;
   }
 
-  if (error || tabs == null) {
+  if (error || !tabs) {
     return `Something went wrong: ${error?.message ?? "tabs is undefined"}`;
   }
 

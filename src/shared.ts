@@ -15,11 +15,11 @@ export interface IHeadings {
   h6: ISubHeadings;
 }
 
-export function SetBadge() {
+export function setBadge() {
   Browser.action.setBadgeText({ text: "ACT" });
   Browser.action.setBadgeBackgroundColor({ color: "#2ED825" });
 }
 
-export type ConfigurationModeType = "production" | "development" | "none";
+export type ConfigurationModeType = "production" | "development";
 
 export type SavedData = { isActive: boolean };
